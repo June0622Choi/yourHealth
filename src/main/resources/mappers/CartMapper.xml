@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.dong.cart.CartMapper">
+
+	<resultMap id="cartResultMap" type="kr.co.dong.cart.CartVO">
+		<id property="cartId" column="cart_id" />
+		<result property="usersId" column="users_id" />
+		<result property="productId" column="product_id" />
+		<result property="quantity" column="quantity" />
+		<result property="createdAt" column="created_at" />
+
+		<result property="productName" column="name" />
+		<result property="price" column="price" />
+		<result property="image" column="img_emoji" />
+	</resultMap>
+
+	<insert id="insertCart" parameterType="kr.co.dong.cart.CartVO">
+		INSERT INTO cart (users_id, product_id, quantity, created_at)
+		VALUES (#{usersId}, #{productId}, #{quantity}, now())
+	</insert>
+
+	<select id="selectCartList" parameterType="int" resultMap="cartResultMap">
+		SELECT
+			c.cart_id,
+			c.users_id,
+			c.product_id,
+			c.quantity,
+			c.created_at,
+			p.name,
+			p.price,
+			p.img_emoji
+		FROM cart c
+		JOIN products p ON c.product_id = p.product_id
+		WHERE c.users_id = #{usersId}
+		ORDER BY c.cart_id DESC
+	</select>
+
+	<select id="selectCartOne" parameterType="int" resultMap="cartResultMap">
+		SELECT
+			c.cart_id,
+			c.users_id,
+			c.product_id,
+			c.quantity,
+			c.created_at,
+			p.name,
+			p.price,
+			p.img_emoji
+		FROM cart c
+		JOIN products p ON c.product_id = p.product_id
+		WHERE c.cart_id = #{cartId}
+	</select>
+
+	<select id="selectCartByUserAndProduct" parameterType="kr.co.dong.cart.CartVO" resultMap="cartResultMap">
+		SELECT
+			cart_id,
+			users_id,
+			product_id,
+			quantity,
+			created_at
+		FROM cart
+		WHERE users_id = #{usersId}
+		  AND product_id = #{productId}
+	</select>
+
+	<update id="updateQuantity" parameterType="kr.co.dong.cart.CartVO">
+		UPDATE cart
+		SET quantity = #{quantity}
+		WHERE cart_id = #{cartId}
+	</update>
+
+	<delete id="deleteCart" parameterType="int">
+		DELETE FROM cart
+		WHERE cart_id = #{cartId}
+	</delete>
+
+	<delete id="deleteCartByUser" parameterType="int">
+		DELETE FROM cart
+		WHERE users_id = #{usersId}
+	</delete>
+
+</mapper>

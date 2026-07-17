@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.dong.review.ReviewMapper">
+
+	<resultMap id="reviewResultMap" type="kr.co.dong.review.ReviewVO">
+		<id property="reviewsId" column="reviews_id" />
+		<result property="productId" column="product_id" />
+		<result property="rating" column="rating" />
+		<result property="content" column="content" />
+		<result property="createdAt" column="created_at" />
+	</resultMap>
+
+	<select id="selectReviewList" parameterType="int" resultMap="reviewResultMap">
+	    SELECT ANY_VALUE(reviews_id) AS reviews_id, product_id, ANY_VALUE(rating) AS rating, content, ANY_VALUE(created_at) AS created_at
+	    FROM reviews
+	    WHERE product_id = #{productId}
+	    GROUP BY content
+	    ORDER BY reviews_id DESC
+	</select>
+	
+	<insert id="insertReview" parameterType="kr.co.dong.review.ReviewVO">
+	    INSERT INTO reviews (product_id, rating, content, created_at)
+	    VALUES (#{productId}, #{rating}, #{content}, now())
+	</insert>
+</mapper>

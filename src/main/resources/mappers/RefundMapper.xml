@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.dong.refund.RefundMapper">
+
+	<resultMap id="refundResultMap" type="kr.co.dong.refund.RefundVO">
+		<id property="refundsId" column="refunds_id" />
+		<result property="orderId" column="order_id" />
+		<result property="usersrId" column="users_id" />
+		<result property="reason" column="reason" />
+		<result property="status" column="status" />
+		<result property="reuqestedAt" column="requested_at" />
+		<result property="processedAt" column="processed_at" />
+		<result property="orderNumber" column="order_number" />
+	</resultMap>
+
+	<!-- 환불 신청 등록 -->
+	<insert id="insertRefund" parameterType="kr.co.dong.refund.RefundVO"
+		useGeneratedKeys="true" keyProperty="refundsId">
+		INSERT INTO refunds (order_id, users_id, reason, status, requested_at)
+		VALUES (#{orderId}, #{usersrId}, #{reason}, #{status}, now())
+	</insert>
+
+	<!-- 회원의 환불 목록 (마이페이지용) -->
+	<select id="selectRefundList" parameterType="int" resultMap="refundResultMap">
+		SELECT r.refunds_id, r.order_id, r.users_id, r.reason, r.status, r.requested_at, r.processed_at,
+			o.order_number
+		FROM refunds r
+		JOIN orders o ON r.order_id = o.order_id
+		WHERE r.users_id = #{usersrId}
+		ORDER BY r.refunds_id DESC
+	</select>
+
+	<!-- 환불 한 건 조회 -->
+	<select id="selectRefundOne" parameterType="int" resultMap="refundResultMap">
+		SELECT r.refunds_id, r.order_id, r.users_id, r.reason, r.status, r.requested_at, r.processed_at,
+			o.order_number
+		FROM refunds r
+		JOIN orders o ON r.order_id = o.order_id
+		WHERE r.refunds_id = #{refundsId}
+	</select>
+
+	<!-- 특정 주문에 이미 환불 신청이 있는지 확인 -->
+	<select id="selectRefundByOrderId" parameterType="int" resultMap="refundResultMap">
+		SELECT refunds_id, order_id, users_id, reason, status, requested_at, processed_at
+		FROM refunds
+		WHERE order_id = #{orderId}
+	</select>
+
+	<!-- 관리자용 - 전체 환불 목록 -->
+	<select id="selectAllRefunds" resultMap="refundResultMap">
+		SELECT r.refunds_id, r.order_id, r.users_id, r.reason, r.status, r.requested_at, r.processed_at,
+			o.order_number
+		FROM refunds r
+		JOIN orders o ON r.order_id = o.order_id
+		ORDER BY r.refunds_id DESC
+	</select>
+
+	<!-- 환불 상태 변경 (관리자 승인/거절) -->
+	<update id="updateRefundStatus" parameterType="kr.co.dong.refund.RefundVO">
+		UPDATE refunds
+		SET status = #{status}, processed_at = now()
+		WHERE refunds_id = #{refundsId}
+	</update>
+
+</mapper>

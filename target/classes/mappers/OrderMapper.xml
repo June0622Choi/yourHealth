@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.dong.order.OrderMapper">
+
+	<resultMap id="orderResultMap" type="kr.co.dong.order.OrderVO">
+		<id property="orderId" column="order_id" />
+		<result property="usersId" column="users_id" />
+		<result property="orderNumber" column="order_number" />
+		<result property="totalPrice" column="total_price" />
+		<result property="receiverName" column="receiver_name" />
+		<result property="receiverPhone" column="receiver_phone" />
+		<result property="address" column="address" />
+		<result property="paymentMethod" column="payment_method" />
+		<result property="status" column="status" />
+		<result property="orderedAt" column="ordered_at" />
+	</resultMap>
+
+	<resultMap id="orderItemResultMap" type="kr.co.dong.order.OrderItemVO">
+		<id property="itemId" column="item_id" />
+		<result property="orderId" column="order_id" />
+		<result property="productId" column="product_id" />
+		<result property="quantity" column="quantity" />
+		<result property="unitPrice" column="unit_price" />
+		<result property="productName" column="product_name" />
+		<result property="image" column="image" />
+	</resultMap>
+
+	<!-- 주문 생성 (orders) : insert 후 생성된 order_id 를 orderVO.orderId 에 채워줌 -->
+	<insert id="insertOrder" parameterType="kr.co.dong.order.OrderVO"
+		useGeneratedKeys="true" keyProperty="orderId">
+		INSERT INTO orders (users_id, order_number, total_price, receiver_name, receiver_phone, address, payment_method, status, ordered_at)
+		VALUES (#{usersId}, #{orderNumber}, #{totalPrice}, #{receiverName}, #{receiverPhone}, #{address}, #{paymentMethod}, #{status}, now())
+	</insert>
+
+	<!-- 주문상세 생성 (order_items) -->
+	<insert id="insertOrderItem" parameterType="kr.co.dong.order.OrderItemVO">
+		INSERT INTO order_items (order_id, product_id, quantity, unit_price)
+		VALUES (#{orderId}, #{productId}, #{quantity}, #{unitPrice})
+	</insert>
+
+	<!-- 회원의 주문 목록 (마이페이지용) -->
+	<select id="selectOrderList" parameterType="int" resultMap="orderResultMap">
+		SELECT order_id, users_id, order_number, total_price, receiver_name, receiver_phone, address, payment_method, status, ordered_at
+		FROM orders
+		WHERE users_id = #{usersId}
+		ORDER BY order_id DESC
+	</select>
+
+	<!-- 주문 한 건 조회 -->
+	<select id="selectOrderOne" parameterType="int" resultMap="orderResultMap">
+		SELECT order_id, users_id, order_number, total_price, receiver_name, receiver_phone, address, payment_method, status, ordered_at
+		FROM orders
+		WHERE order_id = #{orderId}
+	</select>
+
+	<!-- 주문에 속한 상품 목록 (상품정보 조인) -->
+	<select id="selectOrderItems" parameterType="int" resultMap="orderItemResultMap">
+		SELECT
+			oi.item_id, oi.order_id, oi.product_id, oi.quantity, oi.unit_price,
+			p.name AS product_name, p.img_emoji AS image
+		FROM order_items oi
+		JOIN products p ON oi.product_id = p.product_id
+		WHERE oi.order_id = #{orderId}
+	</select>
+	
+	<!-- 주문 상태 변경 (취소/환불대기/환불완료 등) -->
+		<update id="updateOrderStatus" parameterType="map">
+			UPDATE orders
+			SET status = #{status}
+			WHERE order_id = #{orderId}
+		</update>
+
+</mapper>

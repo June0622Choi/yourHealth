@@ -1,0 +1,266 @@
+@charset "UTF-8";
+		* { margin: 0; 	
+			padding: 0; 
+			box-sizing: border-box; 
+			}
+			
+		.logo-link {
+    	color: #ffffff !important;
+    	text-decoration: none !important;
+		}
+		
+		.logo-link:visited {
+    	color: #ffffff !important;
+		}
+			
+		body { 
+		font-family: 'Malgun Gothic', sans-serif; 
+		background-color: #f0f7e8; 
+		}
+		
+		.team-tag {
+		font-family: inherit
+    	font-size: 13px;
+    	font-weight: bold;
+    	letter-spacing: 1px;
+    	color: #fff;
+   		text-decoration: none;
+   	 	margin-right: 14px;
+	    padding-right: 14px;
+	    border-right: 1px solid rgba(255,255,255,0.4);
+    	opacity: 0.9;
+		}
+		
+		.team-tag .five {
+    	color: #a8e063;  /* 초록 헤더 위에서 잘 보이는 밝은 라임그린 */
+		}
+		
+		.header {
+		    background-color: #3B6D11;
+		    color: white;
+		    padding: 15px 30px;
+		    display: flex;
+		    justify-content: space-between;
+		    align-items: center;
+		    position: sticky;
+		    top: 0;
+		    z-index: 100;
+		}
+		.logo { 
+		font-size: 22px; 
+		font-weight: bold; 
+		}
+		.nav a { 
+		color: white; 
+		text-decoration: none;
+		 margin-left: 20px; 
+		 }
+		 
+		.nav a { 
+		color: white; 
+		text-decoration: none; 
+		margin-left: 20px;
+		font-size: 14px; 
+		font-weight: bold; 
+		}
+		
+		.banner {
+		    width: 100%;
+		    padding: 0;
+		    margin: 0;
+		    overflow: hidden;
+		    position: relative;
+		    background-color: #e8f5d4;
+		    height: 400px;
+		    display: flex;
+		    align-items: center;
+		    justify-content: center;
+		}
+		.slide-img {
+		    position: absolute;
+		    top: 0;
+		    left: 0;
+		    width: 100%;
+		    height: 100%;
+		    object-fit: contain;
+		    opacity: 0;
+		    transition: opacity 1s ease-in-out;
+		}
+		.slide-img.active {
+		    opacity: 1;
+		    z-index: 2;
+		}
+		.circle { position: absolute; border-radius: 50%; }
+		.c1 { width: 250px; height: 250px; background: rgba(180,220,140,0.5); top: -80px; left: -80px; }
+		.c2 { width: 200px; height: 200px; background: rgba(180,220,140,0.4); bottom: -60px; left: 50px; }
+		.c3 { width: 250px; height: 250px; background: rgba(180,220,140,0.5); top: -80px; right: -80px; }
+		.c4 { width: 200px; height: 200px; background: rgba(180,220,140,0.4); bottom: -60px; right: 50px; }
+		.section { padding: 30px; }
+		.section-title { font-size: 20px; font-weight: bold; color: #3B6D11; margin-bottom: 20px; }
+		.product-grid { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; }
+		.product-card {
+		    background: white;
+		    border-radius: 12px;
+		    padding: 20px;
+		    width: 200px;
+		    text-align: center;
+		    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+		    cursor: pointer;
+		}
+		.product-card:hover { transform: translateY(-3px); transition: 0.2s; }
+		.product-emoji { font-size: 40px; margin-bottom: 10px; }
+		.product-name { font-weight: bold; margin-bottom: 5px; word-break: keep-all; }
+		.product-price { color: #3B6D11; font-weight: bold; }
+		.tab-wrap { display: flex; gap: 10px; margin-bottom: 20px; }
+		.tab {
+		    padding: 8px 20px;
+		    border-radius: 20px;
+		    border: 2px solid #3B6D11;
+		    background: white;
+		    color: #3B6D11;
+		    cursor: pointer;
+		    font-weight: bold;
+		}
+		.tab.active { background: #3B6D11; color: white; }
+		.footer {
+		    background: #3B6D11;
+		    color: white;
+		    text-align: center;
+		    padding: 20px;
+		    margin-top: 40px;
+		    font-size: 13px;
+		}
+		.footer a { color: #ccc; text-decoration: none; }
+		
+		/* 팝업 */
+		.modal-bg {
+		    display: none;
+		    position: fixed;
+		    inset: 0;
+		    background: rgba(0, 0, 0, 0.55);
+		    z-index: 1000;
+		    align-items: center;
+		    justify-content: center;
+		    padding: 16px;
+		}
+		.modal-bg.show { display: flex; }
+		
+		.modal {
+		    background: rgb(255, 255, 255);
+		    border-radius: 18px;
+		    max-width: 460px;
+		    width: 100%;
+		    padding: 26px;
+		    max-height: 88vh;
+		    overflow-y: auto;
+		    position: relative;
+		    text-align: center;
+		}
+		
+		.modal-close {
+		    position: absolute;
+		    top: 12px;
+		    right: 16px;
+		    background: none;
+		    border: none;
+		    font-size: 20px;
+		    cursor: pointer;
+		    color: #333;
+		}
+		
+		.modal-img-wrap {
+		    text-align: center;
+		    margin-bottom: 10px;
+		}
+		.modal-img {
+		    width: 90px;
+		    height: 90px;
+		    object-fit: cover;
+		    border-radius: 12px;
+		}
+		
+		.modal-badge {
+		    background: rgb(240, 247, 232);
+		    color: rgb(59, 109, 17);
+		    border-radius: 20px;
+		    padding: 3px 10px;
+		    font-size: 12px;
+		    font-weight: 700;
+		    display: inline-block;
+		    margin-bottom: 6px;
+		}
+		
+		.modal-name {
+		    font-size: 18px;
+		    font-weight: 900;
+		    color: rgb(17, 17, 17);
+		    margin-bottom: 4px;
+		}
+		
+		.modal-price {
+		    font-size: 22px;
+		    color: rgb(59, 109, 17);
+		    font-weight: 900;
+		    margin-bottom: 12px;
+		}
+		
+		.modal-desc {
+		    font-size: 13px;
+		    color: rgb(85, 85, 85);
+		    line-height: 1.7;
+		    margin-bottom: 12px;
+		    text-align: left;
+		}
+		
+		.modal-caution-box {
+		    background: rgb(255, 249, 230);
+		    border: 1px solid rgb(240, 192, 64);
+		    border-radius: 8px;
+		    padding: 9px 12px;
+		    font-size: 12px;
+		    color: rgb(122, 92, 0);
+		    margin-bottom: 8px;
+		    text-align: left;
+		}
+		
+		.modal-cert {
+		    background: rgb(240, 247, 232);
+		    border-radius: 8px;
+		    padding: 9px 12px;
+		    font-size: 12px;
+		    color: rgb(59, 109, 17);
+		    margin-bottom: 12px;
+		    text-align: left;
+		}
+		
+		.modal-review-title {
+		    font-weight: 700;
+		    font-size: 13px;
+		    margin-bottom: 8px;
+		    text-align: left;
+		}
+		
+		.modal-review {
+		    background: rgb(245, 245, 245);
+		    border-radius: 7px;
+		    padding: 7px 10px;
+		    margin-bottom: 5px;
+		    font-size: 12px;
+		    text-align: left;
+		}
+		
+		.modal-btn {
+		    background: rgb(59, 109, 17);
+		    color: rgb(255, 255, 255);
+		    border: none;
+		    border-radius: 10px;
+		    padding: 11px 20px;
+		    font-weight: 700;
+		    font-size: 13px;
+		    width: 100%;
+		    margin-top: 8px;
+		    cursor: pointer;
+		}
+		.modal-btn:hover {
+		    background: rgb(45, 90, 14);
+		}

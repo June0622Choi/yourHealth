@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.dong.admin.AdminMapper">
+
+	<resultMap id="adminResultMap" type="kr.co.dong.admin.AdminVO">
+		<id property="adminId" column="admin_id" />
+		<result property="email" column="email" />
+		<result property="password" column="password" />
+		<result property="name" column="name" />
+		<result property="phone" column="phone" />
+		<result property="createdAt" column="created_at" />
+	</resultMap>
+
+	<select id="login" parameterType="kr.co.dong.admin.AdminVO" resultMap="adminResultMap">
+		SELECT admin_id, email, password, name, phone, created_at
+		FROM admin
+		WHERE email = #{email} AND password = #{password}
+	</select>
+
+	<select id="countUsers" resultType="int">
+		SELECT COUNT(*) FROM users
+	</select>
+
+	<select id="countOrders" resultType="int">
+		SELECT COUNT(*) FROM orders
+	</select>
+
+	<select id="sumTotalSales" resultType="int">
+		SELECT IFNULL(SUM(total_price), 0)
+		FROM orders
+		WHERE status != '취소'
+	</select>
+
+	<select id="countPendingRefunds" resultType="int">
+		SELECT COUNT(*) FROM refunds WHERE status = '환불대기'
+	</select>
+
+	<resultMap id="productAdminResultMap" type="kr.co.dong.admin.ProductAdminVO">
+		<id property="productId" column="product_id" />
+		<result property="name" column="name" />
+		<result property="price" column="price" />
+		<result property="category" column="category" />
+		<result property="stock" column="stock" />
+		<result property="description" column="description" />
+		<result property="caution" column="caution" />
+		<result property="imgEmoji" column="img_emoji" />
+	</resultMap>
+
+	<!-- 상품관리용 - 전체 상품 목록 -->
+	<select id="selectProductList" resultMap="productAdminResultMap">
+		SELECT product_id, name, price, category, stock
+		FROM products
+		ORDER BY product_id ASC
+	</select>
+
+	<!-- 상품 한 건 조회 (수정화면용) -->
+	<select id="selectProductOne" parameterType="int" resultMap="productAdminResultMap">
+		SELECT product_id, name, price, category, stock, description, caution, img_emoji
+		FROM products
+		WHERE product_id = #{productId}
+	</select>
+
+	<!-- 상품 추가 -->
+	<insert id="insertProduct" parameterType="kr.co.dong.admin.ProductAdminVO">
+		INSERT INTO products (name, price, category, description, caution, img_emoji, stock, created_at)
+		VALUES (#{name}, #{price}, #{category}, #{description}, #{caution}, #{imgEmoji}, #{stock}, now())
+	</insert>
+
+	<!-- 상품 수정 -->
+	<update id="updateProduct" parameterType="kr.co.dong.admin.ProductAdminVO">
+		UPDATE products
+		SET name = #{name}, price = #{price}, category = #{category},
+			description = #{description}, caution = #{caution}, img_emoji = #{imgEmoji}, stock = #{stock}
+		WHERE product_id = #{productId}
+	</update>
+
+	<resultMap id="orderAdminResultMap" type="kr.co.dong.admin.OrderAdminVO">
+		<id property="orderId" column="order_id" />
+		<result property="orderNumber" column="order_number" />
+		<result property="buyerName" column="receiver_name" />
+		<result property="totalPrice" column="total_price" />
+		<result property="status" column="status" />
+	</resultMap>
+
+	<select id="selectOrderAdminList" resultMap="orderAdminResultMap">
+		SELECT order_id, order_number, receiver_name, total_price, status
+		FROM orders
+		ORDER BY order_id DESC
+	</select>
+
+	<resultMap id="userAdminResultMap" type="kr.co.dong.admin.UserAdminVO">
+		<id property="usersId" column="users_id" />
+		<result property="email" column="email" />
+		<result property="name" column="name" />
+		<result property="phone" column="phone" />
+		<result property="createdAt" column="created_at" />
+	</resultMap>
+
+	<select id="selectUserAdminList" resultMap="userAdminResultMap">
+		SELECT users_id, email, name, phone, created_at
+		FROM users
+		ORDER BY users_id DESC
+	</select>
+
+<!-- 상품 삭제 -->
+	<delete id="deleteProduct" parameterType="int">
+		DELETE FROM products WHERE product_id = #{productId}
+	</delete>
+</mapper>
