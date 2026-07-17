@@ -1,0 +1,11 @@
+# IntelliJ IDEA
+.idea/
+
+# Eclipse
+.settings/
+
+# Maven build output
+target/
+
+# Local Spring config (DB credentials, etc.)
+src/main/webapp/WEB-INF/spring/root-context.xml
