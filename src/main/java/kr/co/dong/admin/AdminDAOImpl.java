@@ -1,7 +1,7 @@
 package kr.co.dong.admin;
 
 import java.util.List;
-
+import java.util.Map;
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
@@ -75,5 +75,9 @@ public class AdminDAOImpl implements AdminDAO {
 	@Override
 	public void deleteProduct(int productId) {
 		sqlSession.delete(NAMESPACE + "deleteProduct", productId);
+	}
+	@Override
+	public List<Map<String, Object>> selectSalesByCategory() {
+		return sqlSession.selectList(NAMESPACE + "selectSalesByCategory");
 	}
 }

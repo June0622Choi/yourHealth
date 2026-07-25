@@ -1,7 +1,7 @@
 package kr.co.dong.admin;
 
 import java.util.List;
-
+import java.util.Map;   
 public interface AdminService {
 
 	public AdminVO login(String email, String password);
@@ -27,4 +27,6 @@ public interface AdminService {
 	public void editProduct(ProductAdminVO vo);
 	
 	public void removeProduct(int productId);
+	
+	public List<Map<String, Object>> getSalesByCategory();
 }

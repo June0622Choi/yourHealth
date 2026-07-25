@@ -69,6 +69,7 @@ public class AdminController {
 		model.addAttribute("orderCount", adminService.getOrderCount());
 		model.addAttribute("totalSales", adminService.getTotalSales());
 		model.addAttribute("pendingRefundCount", adminService.getPendingRefundCount());
+		model.addAttribute("categorySales", adminService.getSalesByCategory());
 
 		// 미답변 문의 건수 (NEW 표시용)
 		List<InquiryVO> inquiryList = inquiryService.getList();

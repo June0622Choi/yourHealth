@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.dong.product.ProductMapper">
+    
+    <resultMap id="productResultMap" type="kr.co.dong.product.ProductVO">
+        <id column="product_id" property="productId" />
+        <result column="name" property="productName" />
+        <result column="price" property="price" />
+        <result column="category" property="category" />
+        <result column="stock" property="stock" />
+        <result column="description" property="description" />
+        <result column="caution" property="caution" />
+        <result column="img_emoji" property="imageFileName" />
+    </resultMap>
+    
+    <!-- 모든 상품 조회 -->
+    <select id="selectAll" resultMap="productResultMap">
+        SELECT * FROM products ORDER BY product_id
+    </select>
+    
+    <!-- 상품 1개 조회 -->
+    <select id="selectOne" parameterType="int" resultMap="productResultMap">
+        SELECT * FROM products WHERE product_id = #{productId}
+    </select>
+    
+    <!-- 상품 추가 -->
+    <insert id="insert" parameterType="kr.co.dong.product.ProductVO">
+        INSERT INTO products (name, price, category, stock, description, caution, img_emoji)
+        VALUES (#{productName}, #{price}, #{category}, #{stock}, #{description}, #{caution}, #{imageFileName})
+    </insert>
+    
+    <!-- 상품 수정 -->
+    <update id="update" parameterType="kr.co.dong.product.ProductVO">
+        UPDATE products 
+        SET name=#{productName}, price=#{price}, category=#{category}, stock=#{stock}, 
+            description=#{description}, caution=#{caution}, img_emoji=#{imageFileName}
+        WHERE product_id=#{productId}
+    </update>
+    
+    <!-- 상품 삭제 -->
+    <delete id="delete" parameterType="int">
+        DELETE FROM products WHERE product_id = #{productId}
+    </delete>
+    
+</mapper>

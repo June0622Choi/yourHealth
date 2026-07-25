@@ -106,7 +106,12 @@
 <body>
 	<header>
 		<div class="logo">🛠 관리자 대시보드</div>
-		<a href="${pageContext.request.contextPath}/admin/logout">🔒 로그아웃</a>
+		<nav>
+		   <a href="${pageContext.request.contextPath}/">🏠 홈으로 가기</a> 
+        <a href="${pageContext.request.contextPath}/admin/products">📦 상품관리</a>
+        <a href="${pageContext.request.contextPath}/admin/logout">🔒 로그아웃</a>
+		</nav>
+		
 	</header>
 	<div class="container">
 		<div class="page-title">📊 관리자 대시보드</div>

@@ -5,7 +5,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
-
+import java.util.Map;
 @Service
 public class AdminServiceImpl implements AdminService {
 
@@ -70,4 +70,8 @@ public class AdminServiceImpl implements AdminService {
 	public void removeProduct(int productId) {
 		adminDAO.deleteProduct(productId);
 	}
+	@Override
+	public List<Map<String, Object>> getSalesByCategory() {
+		return adminDAO.selectSalesByCategory();
+}
 }

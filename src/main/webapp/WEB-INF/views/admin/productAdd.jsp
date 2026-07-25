@@ -36,7 +36,7 @@
 	<div class="container">
 		<div class="page-title">➕ 상품 추가</div>
 		<div class="panel">
-			<form action="${pageContext.request.contextPath}/admin/products/add" method="post">
+			<form action="${pageContext.request.contextPath}/admin/products/add" method="post" enctype="multipart/form-data">
 				<div class="form-row">
 					<label>상품명</label>
 					<input type="text" name="name" required>
@@ -47,7 +47,13 @@
 				</div>
 				<div class="form-row">
 					<label>카테고리</label>
-					<input type="text" name="category" placeholder="예: 20대, 30대, 40대, 50대이상" required>
+					<select name="category" required>
+						<option value="">카테고리 선택</option>
+						<option value="20대">20대</option>
+						<option value="30대">30대</option>
+						<option value="40대">40대</option>
+						<option value="50대이상">50대이상</option>
+					</select>
 				</div>
 				<div class="form-row">
 					<label>재고</label>
@@ -62,8 +68,8 @@
 					<textarea name="caution"></textarea>
 				</div>
 				<div class="form-row">
-					<label>이미지 파일명 (예: capsule.png)</label>
-					<input type="text" name="imgEmoji">
+					<label>이미지 파일 업로드</label>
+					<input type="file" name="imageFile" accept="image/*">
 				</div>
 				<button type="submit" class="submit-btn">✅ 상품 등록</button>
 			</form>

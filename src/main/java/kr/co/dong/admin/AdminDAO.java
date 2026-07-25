@@ -1,6 +1,7 @@
 package kr.co.dong.admin;
 
 import java.util.List;
+import java.util.Map;
 
 public interface AdminDAO {
 
@@ -30,5 +31,8 @@ public interface AdminDAO {
 	public void updateProduct(ProductAdminVO vo);
 	
 	// 상품 삭제
-		public void deleteProduct(int productId);
+	public void deleteProduct(int productId);
+		
+	// 카테고리별 매출 비중
+	public List<Map<String, Object>> selectSalesByCategory();
 }
